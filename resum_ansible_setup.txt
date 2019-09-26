@@ -1,0 +1,24 @@
+# generar fitxer hosts a partir de les macs
+sudo arp-scan -Nq --interface=wlp2s0 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f got_macs.txt | tee get_ips.txt
+
+
+
+#macs inicials
+arp -n | grep ether | sort -k 3 | tee macs_inicials_sort.txt
+
+#macs finals
+arp -n | grep ether | sort -k 3 | tee macs_finals_sort.txt
+
+## obtindre les macs
+diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $3}' | tee macs_ac2_m7_20192020.txt
+
+echo "[aulaac2]" | tee hosts.ac2 && sudo arp-scan -Nq 
+--interface=wlp2s0 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | 
+sed '$d' | sort -k2  | grep -f got_macs.txt | tee -a hosts.ac2
+
+
+#envie la clau publica primer
+ansible-playbook -i hosts.ac2.all spread2-ssh-key.yml -K -k
+
+#instal·le programari
+ansible-playbook -i hosts.ac2.all install.yml -K

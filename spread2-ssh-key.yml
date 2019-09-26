@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  become_user: joan.iznardo
+  remote_user: joan.iznardo
+  #  become_user: root
+  #  remote_user: vagrant
+  gather_facts: false
+  tasks:
+    # This should work too / #2372
+    # - name: Pushes user key to root's on vagrant boxes
+    #   action: authorized_key key=$FILE($item) user=root
+    #   first_available_file:
+    #     - ~/.ssh/id_dsa.pub
+    #     - ~/.ssh/id_rsa.pub
+
+
+    - name: Set authorized key for user ubuntu copying it from current user
+      authorized_key:
+        user: joan.iznardo
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
