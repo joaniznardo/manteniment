@@ -14,6 +14,16 @@
     #     - ~/.ssh/id_dsa.pub
     #     - ~/.ssh/id_rsa.pub
 
+    - name: eliminar repo dup
+      file:
+        path: /etc/apt/sources.list.d/google.list
+        state: absent
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
 
     - name: instal·la apt packages
       apt:
