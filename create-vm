@@ -1,0 +1,13 @@
+virt-builder fedora-30 --size=10G --root-password password:redhat
+virt-install --connect qemu:///system --import --name fedora --ram 2048 --disk path=fedora-30.img,format=raw --os-variant fedora28
+
+
+virsh net-autostart --network default
+virsh net-start --network default
+
+
+ssh-keygen
+ssh-copyid
+
+
+install ssh-askpass
