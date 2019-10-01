@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  remote_user: joan.iznardo
+  #  become_user: root
+  #  remote_user: vagrant
+  gather_facts: false
+  tasks:
+    # This should work too / #2372
+    # - name: Pushes user key to root's on vagrant boxes
+    #   action: authorized_key key=$FILE($item) user=root
+    #   first_available_file:
+    #     - ~/.ssh/id_dsa.pub
+    #     - ~/.ssh/id_rsa.pub
+
+
+    - name: canvia els permissos de /boot
+      file:
+        path: /boot
+        state: directory
+        recurse: yes
+        #        mode: '0755'
+        mode: u=rwX,g=rX,o=rX

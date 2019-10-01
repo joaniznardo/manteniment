@@ -1,0 +1,388 @@
+    1  w
+    2  ps -elf | grep ssh
+    3  sudo cat /var/log/auth.log
+    4  ps -elf
+    5  exit
+    6  w
+    7  exit
+    8  ps -elf
+    9  who
+   10  exit
+   11  sudo apt update
+   12  ls -l /etc/apt/sources.list.d/
+   13  sudo mv /etc/apt/sources.list.d/google.list{,.old}
+   14  sudo apt update
+   15  sudo apt install qemu qemu-kvm libvirt-bin  bridge-utils  virt-manager
+   16  sudo systemctl start libvirtd 
+   17  sudo systemctl enable libvirtd 
+   18  cat /etc/group
+   19  sudo usermod -aG cf17eric.salvatierra libvirt
+   20  sudo usermod -aG libvirt cf17eric.salvatierra 
+   21  sudo usermod -aG libvirt cf17jeremy.mata 
+   22  sudo usermod -aG libvirt joan.iznardo
+   23  exit
+   24  virt-manager
+   25  sudo apt install vagrant-libvirt
+   26  vagrant plugin install vagrant-libvirt
+   27  exit
+   28  sudo useradd -m -s /bin/bash proxyldap
+   29  sudo usermod -aG  libvirt proxyldap
+   30  sudo passwd proxyldap
+   31  exit
+   32  sudo usermod -aG kvm,libvirt-qemu proxyldap
+   33  su -c "virsh net-list" proxyldap
+   34  su -v -c "virsh net-list" proxyldap
+   35  su - proxyldap ;"virsh net-list" proxyldap
+   36  sudo vi /etc/polkit-1/rules.d/80-libvirt.rules
+   37  sudo mkdir -p  /etc/polkit-1/rules.d/
+   38  sudo vi /etc/polkit-1/rules.d/80-libvirt.rules
+   39  su - proxyldap
+   40  sudo polkit.addRule(function(action, subject) {
+   41  sudo systemctl restart polkit
+   42  su - proxyldap
+   43  virsh net-list
+   44  virsh 
+   45  virt-manager
+   46  exit
+   47  ip r
+   48  sudo ip r add 192.168.4.0/22 via 192.168.0.3 dev eno1
+   49  ip r
+   50  ping -c 1 192.168.5.1
+   51  ip a
+   52  arp -n
+   53  arp -n | tee abans.txt
+   54  vi abans.txt
+   55  arp -n | grep -v Addre
+   56  arp -n | grep -v Addre | wc -l
+   57  history
+   58  arp -n | grep -v Addre | tee despres.txt
+   59  arp -n | grep -v Addre | tee despres.txt | wc -l
+   60  ls -l
+   61  sort abans.txt | tee sorted_abans.txt
+   62  sort abans.txt | grep -v Addr | tee sorted_abans.txt
+   63  sort despres.txt | grep -v Addr | tee sorted_despres.txt
+   64  diff -y sorted_abans.txt sorted_despres.txt  | sed '/>/!d' | awk '{ print $2 }' | tee llista_new_ping.txt
+   65  diff -y sorted_abans.txt sorted_despres.txt  | sed '/>/!d' | awk '{ print $4 }' | tee llista_new_mac.txt
+   66  ls -l
+   67  mv llista_new_mac_ac2.txt 
+   68  mv llista_new_mac{,_ac2}.txt 
+   69  mv llista_new_ping{,_ac2}.txt 
+   70  sudo arp-scan -Nq --interface=wlp2s0 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f llista_new_mac_ac2.txt | tee get_ips.txt
+   71  ip a
+   72  sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f llista_new_mac_ac2.txt | tee get_ips.txt
+   73  ls -l
+   74  mkdir Documents/ansible
+   75  mv abans.txt despres.txt get_ips.txt llista_new_* sorted_* Documents/ansible/
+   76  ls -l
+   77  wc -l Documents/ansible/llista_new_ping_ac2.txt 
+   78  sudo apt-add-repository ppa:ansible/ansible
+   79  sudo apt update
+   80  ls -l /etc/apt/sources.list.d
+   81  sudo rm /etc/apt/sources.list.d/google.list.old 
+   82  sudo apt update
+   83  sudo apt install ansible
+   84  cd Documents/ansible/
+   85  ls -l
+   86  history
+   87  sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f llista_new_mac_ac2.txt | tee get_ips.txt
+   88  sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f llista_new_mac_ac2.txt |awk '{print $1}'|  tee get_ips.txt 
+   89  echo [ac2] | tee get_ips.txt && sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f llista_new_mac_ac2.txt |awk '{print $1}'|  tee -a get_ips.txt 
+   90  cat get_ips.txt 
+   91  vi install_kvm.yaml
+   92  ansible-playbook -i ./get_ips.txt install_kvm.yaml 
+   93  vi install_kvm.yaml 
+   94  ansible-playbook -i ./get_ips.txt install_kvm.yaml 
+   95  vi install_kvm.yaml 
+   96  ansible-playbook -i ./get_ips.txt install_kvm.yaml 
+   97  dirs
+   98  cd /home
+   99  pushd .
+  100  dirs
+  101  cd
+  102  popd
+  103  pushd /var
+  104  dirs
+  105  popd +2
+  106  netstat -atnp
+  107  exit
+  108  cat hosts.ac2 
+  109  cat hosts.ac2 | grep -v aula
+  110  for i in $(cat hosts.ac2 | grep -v aula); do ssh $i w; done
+  111  for i in $(cat hosts.ac2 | grep -v aula); do ssh $i last; done
+  112  for i in $(cat hosts.ac2 | grep -v aula); do ssh $i w; done
+  113  for i in $(cat hosts.ac2 | grep -v aula); do ssh $i w | grep :0; done
+  114  for i in $(cat hosts.ac2 | grep -v aula); do ssh $i w | grep ":0 "; done
+  115  cat hosts.ac2 
+  116  ls -l
+  117  cd Documents/
+  118  ls -l
+  119  cd ansible/
+  120  ls -l
+  121  cat get_ips.txt 
+  122  ping 192.168.2.150
+  123  cat llista_new_mac_ac2.txt 
+  124  ip a
+  125  arp -n
+  126  vi llista_new_mac_ac2.txt 
+  127  ansible
+  128  ip a
+  129  ls -l
+  130  mv get_ips.txt{,.old} 
+  131  vi get_ips.txt
+  132  echo '[aulaac2]' | tee hosts.ac2 && cat get_ips.txt | tee -a hosts.ac2
+  133  ansible -i hosts.ac2 -m ping
+  134  ansible-playbook -i hosts.ac2 -m ping
+  135  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml 
+  136  cat hosts.ac2 
+  137  vi hosts.ac2 
+  138  cat hosts.ac2 
+  139  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml 
+  140  ssh-keygen 
+  141  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml 
+  142  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml -K
+  143  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml -k
+  144  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml -k -K
+  145  vi ansible.cfg
+  146  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml -k -K
+  147  ansible-playbook -i hosts.ac2 spread2-ssh-key.yml 
+  148  cat install_kvm.yaml 
+  149  cat spread2-ssh-key.yml 
+  150  cat spread2-ssh-key.yml install_kvm.yaml | tee kvm.yaml
+  151  vi kvm.yaml 
+  152  ansible-playbook -i hosts.ac2 kvm.yaml 
+  153  vi kvm.yaml 
+  154  ansible-playbook -i hosts.ac2 kvm.yaml 
+  155  vi kvm.yaml 
+  156  ansible-playbook -i hosts.ac2 kvm.yaml 
+  157  ansible-playbook -i hosts.ac2 install.yml 
+  158  ansible-playbook -i hosts.ac2 install.yml -k
+  159  ansible-playbook -i hosts.ac2 install.yml -K
+  160  vi ansible.cfg 
+  161  ansible-playbook -i hosts.ac2 install.yml -K
+  162  cat install
+  163  cat install.yml 
+  164  ansible-playbook -i hosts.ac2 install.yml -K
+  165  vi install.yml 
+  166  ansible-playbook -i hosts.ac2 install.yml -K
+  167  id
+  168  ls -l /dev/kvm
+  169  sudo chmod a+rw /dev/kvm
+  170  ls -l /dev/kvm
+  171  virt-builder fedora-27 --size=10G >   --root-password password:redhat
+  172  virt-builder fedora-27 --size=10G --root-password password:redhat
+  173  virt-builder fedora-27--root-password password:redhat
+  174  virt-builder fedora-30 --root-password password:redhat
+  175  df
+  176  export LIBGUESTFS_DEBUG=1 LIBGUESTFS_TRACE=1
+  177  virt-builder fedora-30 --root-password password:redhat
+  178  sudo apt update
+  179  sudo apt upgrade
+  180  virt-builder fedora-30 --root-password password:redhat
+  181  exit
+  182  cd Documents/
+  183  ls -l
+  184  cd ansible/
+  185  ls -l
+  186  arp -n
+  187  arp -n | grep ether
+  188  arp -n | grep ether | tee macs_inicials.txt
+  189  ip a
+  190  arp -n | grep ether | tee macs_finals.txt
+  191  arp -n | grep ether | sort -k 3 | tee macs_finals_sort.txt
+  192  cat macs_inicials.txt | sort -k 3 | tee macs_inicials_sort.txt
+  193  diff -y macs_finals_sort.txt macs_inicials_sort.txt 
+  194  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep < 
+  195  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<
+  196  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<"
+  197  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk 'print {$3}"
+  198  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk 'print {$3}'
+  199  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $3}'
+  200  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $3}' | tee macs_ac2_m7_20192020.txt
+  201  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $1}' | tee ips_ac2_m7_20190926.txt
+  202  ls -l
+  203  cat ansible.cfg 
+  204  history  | tee historial_ac2.txt
+  205  cat hosts.ac2 
+  206  echo "[aulaac2]" | tee hosts.ac2.all && cat ips_ac2_m7_20190926.txt | tee -a hosts.ac2.all
+  207  ansible-playbook -i hosts.ac2.all install.yml -K
+  208  ansible-playbook -i hosts.ac2.all spread2-ssh-key.yml -K
+  209  ansible-playbook -i hosts.ac2.all spread2-ssh-key.yml -K -k
+  210  ansible-playbook -i hosts.ac2.all install.yml -K
+  211  virsh list
+  212  virsh qemu:///session
+  213  virsh connect qemu:///session
+  214  virsh list
+  215  virsh connect qemu:///system
+  216  virsh list
+  217  virt-manager
+  218  virt-builder fedora-27 --size=10G   --root-password password:redhat
+  219  cat /etc/group | grep "129"
+  220  id
+  221  su - joan.iznardo
+  222  exit
+  223  ls -l
+  224  history
+  225  ls -l
+  226  less historial_ac2.txt 
+  227  cd ..
+  228  git clone https://github.com/joaniznardo/manteniment.git
+  229  cd manteniment/
+  230  ls -l
+  231  cat genera_hosts.sh 
+  232  ls -l
+  233  cat testoff 
+  234  cat webadded 
+  235  git status
+  236  git add *
+  237  git git commit -m "aulaac2"
+  238  git config --global user.email "joan.iznardo@iesjoandaustria.org"
+  239  git config --global user.name "Joan Iznardo"
+  240  git git commit -m "aulaac2"
+  241  git push 
+  242  exit
+  243  id
+  244  cat /etc/group | grep libvirt
+  245  cat /etc/group | grep kvm
+  246  id
+  247  virt-builder fedora-30 --size=10G   --root-password password:redhat
+  248  virt-builder -l
+  249  virt-builder ubuntu-18.04
+  250  #virt-builder ubuntu-18.04
+  251  libguestfs-test-tool
+  252  exit
+  253  id
+  254  virt-builder fedora-30   --root-password password:redhat
+  255  sudo chmod a+rw /dev/kvm
+  256  virt-builder fedora-30   --root-password password:redhat
+  257  virt-builder -v -x fedora-30   --root-password password:redhat
+  258  virt-builder -l
+  259  virt-builder fedora-27 -o mydisk.img
+  260  cd Documents
+  261  cd ansible
+  262  ls -l
+  263  cat hosts.ac2.all 
+  264  ssh 192.168.2.150
+  265  sudo usermod -aG kvm joan.iznardo
+  266  id
+  267  su - $(whoami)
+  268  exit
+  269  id
+  270  su - $(whoami)
+  271  exit
+  272  ip a
+  273  echo "[aulaac2]" | tee hosts.ac2 && sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f got_macs.txt | tee -a hosts.ac2
+  274  ls -l
+  275  git pull
+  276  echo "[aula14]" | tee hosts.ac2 && sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' |  sed '$d' | sort -k2  | grep -f macs_ac2_m7_20192020.txt | awk '{print $1}' | tee -a hosts.ac2
+  277  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $3}' | tee macs_ac2_m7_20192020.txt
+  278  ls -l
+  279  cat ips_ac2_m7_20190926.txt 
+  280  arp -n
+  281  arp -n | grep ether | sort -k 3 | tee macs_inicials_sort.txt
+  282  ip a
+  283  arp -n | grep ether | sort -k 3 | tee macs_finals_sort.txt
+  284  diff -y macs_finals_sort.txt macs_inicials_sort.txt | grep "<" | awk '{print $3}' | tee macs_ac2_m7_20192020.txt
+  285  echo "[aula14]" | tee hosts.ac2 && sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f macs_ac2_m7_20192020.txt | awk '{print $1}' | tee -a hosts.ac2
+  286  grep -v aul hosts.ac2
+  287  for i in $(grep -v aul hosts.ac2); do ssh -t $i du -hs /home; done
+  288  for i in $(grep -v aul hosts.ac2); do ssh -t $i sudo du -hs /home; done
+  289  for i in $(grep -v aul hosts.ac2); do ssh -t $i "who | grep :0" ; echo $i; done
+  290  for i in $(grep -v aul hosts.ac2); do ssh -t $i "who | grep :0 | awk '{print $1}' " ; echo $i; done
+  291  ssh 192.168.2.138 who
+  292  ssh -t 192.168.2.151 "sudo du -hs /home" 
+  293  ssh  192.168.2.151 
+  294  history
+  295  for i in $(grep -v aul hosts.ac2); do ssh -t $i "who  ; echo $i; done
+  296  for i in $(grep -v aul hosts.ac2); do ssh -t $i who  ; echo $i; done
+  297  ssh 192.168.2.154
+  298  ssh 192.168.2.155
+  299  cd Documents/manteniment/
+  300  ls -l
+  301  geany  resum_ansible_setup.txt 
+  302  id
+  303  exit
+  304  id
+  305  exit
+  306  id
+  307  man logoind
+  308  man logind
+  309  id
+  310  cat /etc/security/group.conf 
+  311  id
+  312  groups
+  313  su - $(whoami)
+  314  id
+  315  sudo vi /etc/pam.d/gdm-password 
+  316  sudo vi /etc/pam.d/systemd-user 
+  317  id
+  318  cat /etc/pam.d/systemd-user
+  319  sudo vi /etc/systemd/system/user@.service.d/override.conf
+  320  sudo mkdir /etc/systemd/system/user@.service.d
+  321  sudo vi /etc/systemd/system/user@.service.d/override.conf
+  322  id
+  323  dmesg
+  324  ls -l /boot
+  325  sudo dkpg --configure -a
+  326  sudo dpkg --configure -a
+  327  id
+  328  source ~/.bashrc
+  329  id
+  330  su - $(whoami)
+  331  cd Documents/manteniment/
+  332  ls -l
+  333  geany resum_ansible_setup.txt 
+  334  echo "[aula14]" | tee hosts.ac2 && sudo arp-scan -Nq --interface=eno1 --localnet |sed '1,2d' | sed '/^$/d' | sed '$d' | sed '$d' | sort -k2  | grep -f macs_ac2_m7_20192020.txt | awk '{print $1}' | tee -a hosts.ac2
+  335  cat /etc/security/group.conf 
+  336  sudo vi /etc/security/group.conf 
+  337  sudo ls /etc/security/group.conf 
+  338  sudo ls -l /etc/security/group.conf 
+  339  cp install.yml copia_fitxer.yml
+  340  vi copia_fitxer.yml 
+  341  history
+  342  ansible-playbook -i hosts.ac2 copia_fitxer.yml -K
+  343  vi copia_fitxer.yml 
+  344  ansible-playbook -i hosts.ac2 copia_fitxer.yml -K
+  345  git status
+  346  git add resum_ansible_setup.txt copia_fitxer.yml 
+  347  git commit -m "copia fitxer"
+  348  git push
+  349  virt-builder fedora-27 --size=10G --root-password password:redhat
+  350  id
+  351  sudo chmod -R a+r /boot
+  352  virt-builder fedora-27 --size=10G --root-password password:redhat
+  353  cp copia_fitxer.yml 03_canvia_permissos.yml
+  354  vi 03_canvia_permissos.yml 
+  355  ls -l /boot/
+  356  sudo cp /boot/memtest86+.bin{,.new} 
+  357  sudo chmod go+r /boot/memtest86+.bin.new 
+  358  ls -l /boot/
+  359  sudo chmod go-r /boot/memtest86+.bin.new 
+  360  ls -l /boot/
+  361  vi host.localhost
+  362  ansible-playbook -i host.localhost 03_canvia_permissos.yml -K
+  363  ansible-playbook -i host.localhost 03_canvia_permissos.yml -K -k
+  364  ls -l /boot/
+  365  ls -l /
+  366  vi 03_canvia_permissos.yml 
+  367  ansible-playbook -i host.localhost 03_canvia_permissos.yml -K -k
+  368  ls -l /
+  369  ls -l /boot/
+  370  vi 03_canvia_permissos.yml 
+  371  ansible-playbook -i host.localhost 03_canvia_permissos.yml -K -k
+  372  ls -l /
+  373  ls -l /boot/
+  374  cd /boot
+  375  ls -l
+  376  cd
+  377  cd Documents/manteniment/
+  378  ls -l
+  379  cat host.localhost 
+  380  cat hosts.ac2
+  381  ssh 192.168.2.150 "ls -l /boot"
+  382  cp hosts.ac2 hosts-test.ac2
+  383  vi hosts-test.ac2 
+  384  history
+  385  ansible-playbook -i hosts-test.ac2 03_canvia_permissos.yml -K -k
+  386  ssh 192.168.2.150 "ls -l /boot"
+  387  ansible-playbook -i hosts.ac2 03_canvia_permissos.yml -K -k
+  388  history | tee historial.ac2.20191001
