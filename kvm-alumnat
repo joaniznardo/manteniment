@@ -1,0 +1,4 @@
+su - $(whoami)
+/bin/bash
+
+virt-manager

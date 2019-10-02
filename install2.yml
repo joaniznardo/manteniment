@@ -1,0 +1,42 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  remote_user: joan.iznardo
+  #  become_user: root
+  #  remote_user: vagrant
+  gather_facts: false
+  tasks:
+    # This should work too / #2372
+    # - name: Pushes user key to root's on vagrant boxes
+    #   action: authorized_key key=$FILE($item) user=root
+    #   first_available_file:
+    #     - ~/.ssh/id_dsa.pub
+    #     - ~/.ssh/id_rsa.pub
+
+    - name: eliminar repo dup
+      file:
+        path: /etc/apt/sources.list.d/google.list
+        state: absent
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        force: yes      
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+
+    - name: instal·la apt packages
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - remmina-plugin-nx
+        - remmina-plugin-spice
+        - remmina-plugin-xdmcp
+        - qemu
+        - qemu-kvm
+        - libvirt-bin
+        - bridge-utils
+        - virt-manager
+
+

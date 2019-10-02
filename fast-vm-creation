@@ -1,0 +1,3 @@
+virt-builder fedora-30 --size=10G --root-password password:redhat
+
+virt-install --connect qemu:///system --import --name fedora01 --ram 2048 --disk path=fedora-30.img,format=raw 
