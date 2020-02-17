@@ -14,6 +14,10 @@
     #     - ~/.ssh/id_dsa.pub
     #     - ~/.ssh/id_rsa.pub
     - virt_net:
+        state: active
+        name: default
+
+    - virt_net:
         autostart: yes
         name: default
 

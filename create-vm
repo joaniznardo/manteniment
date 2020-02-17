@@ -1,5 +1,12 @@
-virt-builder fedora-30 --size=10G --root-password password:redhat
+virt-builder fedora-30 --size=10G --root-password password:redhat --timezone Europe/Andorra
+
 virt-install --connect qemu:///system --import --name fedora --ram 2048 --disk path=fedora-30.img,format=raw --os-variant fedora28
+
+virt-builder ubuntu-18.04 --size=10G --root-password password:ubuntu --timezone Europe/Andorra
+
+virt-install --connect qemu:///system --import --name ub1804desktop --ram 2048 --disk path=ubuntu-18.04.img,format=raw --os-variant ubuntu18.04
+
+sudo apt install libosinfo-bin
 
 
 virsh net-autostart --network default

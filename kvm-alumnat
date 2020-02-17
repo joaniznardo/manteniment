@@ -1,4 +1,12 @@
 su - $(whoami)
+
+
 /bin/bash
 
 virt-manager
+
+
+
+ssh-keygen
+
+ssh-copy-id xxxxxxxxx
